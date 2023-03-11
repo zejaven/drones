@@ -4,8 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zeveon.drones.entity.Drone;
+import org.zeveon.drones.entity.Medication;
 import org.zeveon.drones.repository.DroneRepository;
 import org.zeveon.drones.service.DroneService;
+import org.zeveon.drones.service.MedicationService;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Stanislav Vafin
@@ -14,11 +19,22 @@ import org.zeveon.drones.service.DroneService;
 @RequiredArgsConstructor
 public class DroneServiceImpl implements DroneService {
 
-    private final DroneRepository droneRepository;
+    private final DroneRepository repository;
+
+    private final MedicationService medicationService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Drone register(Drone drone) {
-        return droneRepository.save(drone);
+        return repository.save(drone);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Medication> loadMedications(Long droneId, Collection<Medication> medications) {
+        var drone = repository.findById(droneId)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        medications.forEach(medication -> medication.setDrone(drone));
+        return medicationService.saveAll(medications);
     }
 }
