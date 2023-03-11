@@ -3,13 +3,13 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/drones
+    url: jdbc:postgresql://localhost:5432/drones-test
     username: ${psql.username}
     password: ${psql.password}
     driver-class-name: org.postgresql.Driver
   jpa:
-    generate-ddl: false
+    generate-ddl: true
   liquibase:
-    change-log: classpath:db/changelog/changelog-master.xml
+    enabled: false
   config:
     import: classpath:hidden.yml

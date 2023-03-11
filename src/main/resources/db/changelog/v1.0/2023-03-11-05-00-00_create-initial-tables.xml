@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-03-11-05-00-00_create-initial-tables" author="Stanislav Vafin">
+        <createTable tableName="drone" schemaName="drones">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="serial_number" type="varchar(100)"/>
+            <column name="model" type="varchar(15)">
+                <constraints checkConstraint="model in ('LIGHTWEIGHT','MIDDLEWEIGHT','CRUISERWEIGHT', 'HEAVYWEIGHT')"/>
+            </column>
+            <column name="weight_limit" type="integer"/>
+            <column name="battery_capacity" type="integer"/>
+            <column name="state" type="varchar(15)">
+                <constraints checkConstraint="state in ('IDLE', 'LOADING', 'LOADED', 'DELIVERING', 'DELIVERED', 'RETURNING')"/>
+            </column>
+        </createTable>
+        <createTable tableName="medication" schemaName="drones">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="weight" type="integer"/>
+            <column name="code" type="varchar(255)"/>
+            <column name="image_path" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

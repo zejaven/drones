@@ -1,2 +1,4 @@
 .idea/
 target/
+hidden.yml
+liquibase.properties
