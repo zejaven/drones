@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface MedicationService {
 
+    Medication save(Medication medication);
+
     List<Medication> saveAll(Collection<Medication> medications);
 }

@@ -13,5 +13,7 @@ public interface DroneService {
 
     Drone register(Drone drone);
 
+    Medication loadMedication(Long droneId, Medication medication);
+
     List<Medication> loadMedications(Long droneId, Collection<Medication> medications);
 }

@@ -31,6 +31,15 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public Medication loadMedication(Long droneId, Medication medication) {
+        var drone = repository.findById(droneId)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        medication.setDrone(drone);
+        return medicationService.save(medication);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public List<Medication> loadMedications(Long droneId, Collection<Medication> medications) {
         var drone = repository.findById(droneId)
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));

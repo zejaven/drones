@@ -25,7 +25,7 @@ public class DroneController {
 
     private final DroneService droneService;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DroneDto> register(@RequestBody @Valid DroneDto droneDto) {
         return ResponseEntity.ok(
                 DroneMapper.INSTANCE.toDto(
@@ -33,9 +33,20 @@ public class DroneController {
                                 DroneMapper.INSTANCE.toEntity(droneDto))));
     }
 
-    @PostMapping(value = "/{id}/load-medications", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{drone_id}/load-medication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MedicationDto> loadMedication(
+            @PathVariable("drone_id") Long id,
+            @ModelAttribute @Valid MedicationDto medicationDto
+    ) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDto(
+                        droneService.loadMedication(id,
+                                MedicationMapper.INSTANCE.toEntity(medicationDto))));
+    }
+
+    @PostMapping(value = "/{drone_id}/load-medications", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MedicationDto>> loadMedications(
-            @PathVariable("id") Long id,
+            @PathVariable("drone_id") Long id,
             @RequestBody @Valid List<MedicationDto> medicationDtos
     ) {
         return ResponseEntity.ok(

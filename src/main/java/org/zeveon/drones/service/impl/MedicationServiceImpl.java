@@ -21,6 +21,12 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public Medication save(Medication medication) {
+        return repository.save(medication);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public List<Medication> saveAll(Collection<Medication> medications) {
         return repository.saveAll(medications);
     }
