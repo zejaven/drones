@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-03-11-21-08-00_add-drone-medications-relationship" author="Stanislav Vafin">
+        <addColumn tableName="medication" schemaName="drones">
+            <column name="drone_id" type="bigint">
+                <constraints foreignKeyName="medication_drone_fk"
+                             referencedTableName="drones.drone" referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

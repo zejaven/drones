@@ -5,6 +5,9 @@ import lombok.*;
 import org.zeveon.drones.model.Model;
 import org.zeveon.drones.model.State;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Stanislav Vafin
  */
@@ -39,4 +42,8 @@ public class Drone {
     @Enumerated(EnumType.STRING)
     @Column(name = "state", columnDefinition = "VARCHAR(15) DEFAULT 'IDLE'")
     private State state = State.IDLE;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "drone")
+    private List<Medication> medications = new ArrayList<>();
 }
