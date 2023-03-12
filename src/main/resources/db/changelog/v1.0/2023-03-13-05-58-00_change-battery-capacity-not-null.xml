@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-03-13-05-58-00_change-battery-capacity-not-null" author="Stanislav Vafin">
+        <addNotNullConstraint tableName="drone" columnName="battery_capacity" schemaName="drones" defaultNullValue="0"/>
+    </changeSet>
+</databaseChangeLog>

@@ -41,6 +41,7 @@ public class DroneServiceImpl implements DroneService {
     public Medication loadMedication(Long droneId, Medication medication) {
         var drone = repository.findById(droneId)
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        drone.setState(State.LOADING);
         medication.setDrone(drone);
         return medicationService.save(medication);
     }
@@ -50,6 +51,7 @@ public class DroneServiceImpl implements DroneService {
     public List<Medication> loadMedications(Long droneId, Collection<Medication> medications) {
         var drone = repository.findById(droneId)
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        drone.setState(State.LOADING);
         medications.forEach(medication -> medication.setDrone(drone));
         return medicationService.saveAll(medications);
     }
@@ -59,6 +61,7 @@ public class DroneServiceImpl implements DroneService {
     public List<Medication> loadMedicationsByIds(Long droneId, Collection<Long> medicationIds) {
         var drone = repository.findById(droneId)
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        drone.setState(State.LOADING);
         var medications = medicationService.getByIds(medicationIds);
         medications.forEach(medication -> medication.setDrone(drone));
         return medications;
@@ -78,5 +81,14 @@ public class DroneServiceImpl implements DroneService {
         return repository.findById(droneId)
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)))
                 .getBatteryCapacity();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Drone changeState(Long droneId, State state) {
+        var drone = repository.findById(droneId)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        drone.setState(state);
+        return drone;
     }
 }

@@ -2,6 +2,7 @@ package org.zeveon.drones.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.zeveon.drones.validation.annotations.BatteryLevelHigherThan;
 import org.zeveon.drones.validation.annotations.WeightLimitNotExceeded;
 
 /**
@@ -37,6 +38,7 @@ public class Medication {
     private String imageContentType;
 
     @WeightLimitNotExceeded
+    @BatteryLevelHigherThan(25)
     @ManyToOne
     @JoinColumn(name = "drone_id")
     private Drone drone;

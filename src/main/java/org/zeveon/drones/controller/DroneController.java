@@ -10,6 +10,7 @@ import org.zeveon.drones.dto.DroneDto;
 import org.zeveon.drones.dto.MedicationDto;
 import org.zeveon.drones.mapper.DroneMapper;
 import org.zeveon.drones.mapper.MedicationMapper;
+import org.zeveon.drones.model.State;
 import org.zeveon.drones.service.DroneService;
 import org.zeveon.drones.service.ImageService;
 
@@ -94,5 +95,15 @@ public class DroneController {
     @GetMapping("/{drone_id}/battery")
     public ResponseEntity<Integer> checkBatteryLevel(@PathVariable("drone_id") Long id) {
         return ResponseEntity.ok(service.getBatteryLevel(id));
+    }
+
+    @PostMapping(value = "/{drone_id}/change-state/{state}")
+    public ResponseEntity<DroneDto> changeState(
+            @PathVariable("drone_id") Long id,
+            @PathVariable("state") State state
+    ) {
+        return ResponseEntity.ok(
+                DroneMapper.INSTANCE.toDto(
+                        service.changeState(id, state)));
     }
 }

@@ -1,6 +1,7 @@
 package org.zeveon.drones.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.*;
 import org.zeveon.drones.model.Model;
 import org.zeveon.drones.model.State;
@@ -35,7 +36,8 @@ public class Drone {
     @Column(name = "weight_limit")
     private Integer weightLimit;
 
-    @Column(name = "battery_capacity")
+    @Max(100)
+    @Column(name = "battery_capacity", nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer batteryCapacity;
 
     @Builder.Default

@@ -2,6 +2,7 @@ package org.zeveon.drones.service;
 
 import org.zeveon.drones.entity.Drone;
 import org.zeveon.drones.entity.Medication;
+import org.zeveon.drones.model.State;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,4 +25,6 @@ public interface DroneService {
     List<Medication> getMedications(Long droneId);
 
     Integer getBatteryLevel(Long droneId);
+
+    Drone changeState(Long droneId, State state);
 }
