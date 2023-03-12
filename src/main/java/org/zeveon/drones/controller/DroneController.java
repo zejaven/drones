@@ -22,10 +22,10 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/drone")
+@RequestMapping("/api/drones")
 public class DroneController {
 
-    private final DroneService droneService;
+    private final DroneService service;
 
     private final ImageService imageService;
 
@@ -33,7 +33,7 @@ public class DroneController {
     public ResponseEntity<DroneDto> register(@RequestBody @Valid DroneDto droneDto) {
         return ResponseEntity.ok(
                 DroneMapper.INSTANCE.toDto(
-                        droneService.register(
+                        service.register(
                                 DroneMapper.INSTANCE.toEntity(droneDto))));
     }
 
@@ -45,7 +45,7 @@ public class DroneController {
         try {
             return ResponseEntity.ok(
                     MedicationMapper.INSTANCE.toDto(
-                            droneService.loadMedication(id,
+                            service.loadMedication(id,
                                     MedicationMapper.INSTANCE.toEntity(medicationDto, imageService))));
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();
@@ -60,10 +60,20 @@ public class DroneController {
         try {
             return ResponseEntity.ok(
                     MedicationMapper.INSTANCE.toDtoList(
-                            droneService.loadMedications(id,
+                            service.loadMedications(id,
                                     MedicationMapper.INSTANCE.toEntityList(medicationDtos, imageService))));
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @PostMapping(value = "/{drone_id}/load-medications-by-ids", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MedicationDto>> loadMedicationsByIds(
+            @PathVariable("drone_id") Long id,
+            @RequestBody List<Long> medicationDtoIds
+    ) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDtoList(
+                        service.loadMedicationsByIds(id, medicationDtoIds)));
     }
 }

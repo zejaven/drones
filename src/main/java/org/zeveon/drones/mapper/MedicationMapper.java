@@ -21,10 +21,12 @@ public interface MedicationMapper {
 
     MedicationMapper INSTANCE = Mappers.getMapper(MedicationMapper.class);
 
+    @Mapping(target = "droneId", source = "drone.id")
     MedicationDto toDto(Medication medication);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "imagePath", expression = "java(imageService.save(medicationDto.getImage()))")
+    @Mapping(target = "imageContentType", expression = "java(imageService.getContentType(medicationDto.getImage()))")
     Medication toEntity(MedicationDto medicationDto, @Context ImageService imageService) throws IOException;
 
     List<MedicationDto> toDtoList(Collection<Medication> medications);

@@ -33,7 +33,9 @@ public class Base64ToMultipartFileDeserializer extends StdDeserializer<Multipart
     public MultipartFile deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         var text = jsonParser.getText();
         var fileName = text.replaceFirst(COLON.concat(EVERYTHING_PATTERN), EMPTY);
-        var base64image = text.replaceFirst(fileName.concat(COLON), EMPTY);
-        return new MockMultipartFile(fileName, Base64.getDecoder().decode(base64image));
+        var contentType = text.replaceFirst(fileName.concat(COLON), EMPTY)
+                .replaceFirst(COLON.concat(EVERYTHING_PATTERN), EMPTY);
+        var base64image = text.replaceFirst(fileName.concat(COLON).concat(contentType).concat(COLON), EMPTY);
+        return new MockMultipartFile(fileName, fileName, contentType, Base64.getDecoder().decode(base64image));
     }
 }

@@ -31,4 +31,6 @@ public class MedicationDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonDeserialize(using = Base64ToMultipartFileDeserializer.class)
     private MultipartFile image;
+
+    private Long droneId;
 }

@@ -32,6 +32,9 @@ public class Medication {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @ManyToOne
     @JoinColumn(name = "drone_id")
     private Drone drone;

@@ -16,4 +16,6 @@ public interface DroneService {
     Medication loadMedication(Long droneId, Medication medication);
 
     List<Medication> loadMedications(Long droneId, Collection<Medication> medications);
+
+    List<Medication> loadMedicationsByIds(Long droneId, Collection<Long> medicationIds);
 }

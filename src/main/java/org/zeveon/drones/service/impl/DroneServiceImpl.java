@@ -46,4 +46,14 @@ public class DroneServiceImpl implements DroneService {
         medications.forEach(medication -> medication.setDrone(drone));
         return medicationService.saveAll(medications);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Medication> loadMedicationsByIds(Long droneId, Collection<Long> medicationIds) {
+        var drone = repository.findById(droneId)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+        var medications = medicationService.getByIds(medicationIds);
+        medications.forEach(medication -> medication.setDrone(drone));
+        return medications;
+    }
 }

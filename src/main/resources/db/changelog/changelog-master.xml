@@ -6,4 +6,5 @@
 
     <include file="v1.0/2023-03-11-05-00-00_create-initial-tables.xml" relativeToChangelogFile="true"/>
     <include file="v1.0/2023-03-11-21-08-00_add-drone-medications-relationship.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/2023-03-12-20-39-00_add-medication-image-content-type.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

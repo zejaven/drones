@@ -9,6 +9,7 @@ import org.zeveon.drones.service.MedicationService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Stanislav Vafin
@@ -18,6 +19,30 @@ import java.util.List;
 public class MedicationServiceImpl implements MedicationService {
 
     private final MedicationRepository repository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Medication> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Medication> getAvailable() {
+        return repository.findMedicationsByDroneIsNull();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Medication> getById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Medication> getByIds(Collection<Long> ids) {
+        return repository.findAllById(ids);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
