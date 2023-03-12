@@ -13,3 +13,8 @@ spring:
     change-log: classpath:db/changelog/changelog-master.xml
   config:
     import: classpath:hidden.yml
+
+drones:
+  medication:
+    images:
+      path: images

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 /**
  * @author Stanislav Vafin
  */
+@Component
 public class Base64ToMultipartFileDeserializer extends StdDeserializer<MultipartFile> {
 
     private static final String EVERYTHING_PATTERN = ".*";

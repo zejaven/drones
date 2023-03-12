@@ -1,5 +1,6 @@
 package org.zeveon.drones.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class MedicationDto {
 
     private String code;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonDeserialize(using = Base64ToMultipartFileDeserializer.class)
     private MultipartFile image;
 }

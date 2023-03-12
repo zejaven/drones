@@ -13,3 +13,8 @@ spring:
     enabled: false
   config:
     import: classpath:hidden.yml
+
+drones:
+  medication:
+    images:
+      path: images

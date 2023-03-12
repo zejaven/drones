@@ -2,3 +2,4 @@
 target/
 hidden.yml
 liquibase.properties
+images/

@@ -15,8 +15,8 @@ public interface DroneMapper {
 
     DroneMapper INSTANCE = Mappers.getMapper(DroneMapper.class);
 
-    DroneDto toDto(Drone message);
+    DroneDto toDto(Drone drone);
 
     @Mapping(target = "id", ignore = true)
-    Drone toEntity(DroneDto messageDto);
+    Drone toEntity(DroneDto droneDto);
 }
