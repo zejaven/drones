@@ -22,4 +22,6 @@ public interface DroneService {
     List<Medication> loadMedicationsByIds(Long droneId, Collection<Long> medicationIds);
 
     List<Medication> getMedications(Long droneId);
+
+    Integer getBatteryLevel(Long droneId);
 }

@@ -71,4 +71,12 @@ public class DroneServiceImpl implements DroneService {
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)))
                 .getMedications();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getBatteryLevel(Long droneId) {
+        return repository.findById(droneId)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)))
+                .getBatteryCapacity();
+    }
 }

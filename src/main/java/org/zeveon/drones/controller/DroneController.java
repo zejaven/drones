@@ -90,4 +90,9 @@ public class DroneController {
                 MedicationMapper.INSTANCE.toDtoList(
                         service.getMedications(id)));
     }
+
+    @GetMapping("/{drone_id}/battery")
+    public ResponseEntity<Integer> checkBatteryLevel(@PathVariable("drone_id") Long id) {
+        return ResponseEntity.ok(service.getBatteryLevel(id));
+    }
 }
