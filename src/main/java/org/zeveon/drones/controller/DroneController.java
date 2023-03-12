@@ -37,6 +37,13 @@ public class DroneController {
                                 DroneMapper.INSTANCE.toEntity(droneDto))));
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<DroneDto>> getAvailable() {
+        return ResponseEntity.ok(
+                DroneMapper.INSTANCE.toDtoList(
+                        service.getAvailable()));
+    }
+
     @PostMapping(value = "/{drone_id}/load-medication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MedicationDto> loadMedication(
             @PathVariable("drone_id") Long id,

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zeveon.drones.entity.Drone;
 import org.zeveon.drones.entity.Medication;
+import org.zeveon.drones.model.State;
 import org.zeveon.drones.repository.DroneRepository;
 import org.zeveon.drones.service.DroneService;
 import org.zeveon.drones.service.MedicationService;
@@ -27,6 +28,12 @@ public class DroneServiceImpl implements DroneService {
     @Transactional(rollbackFor = Exception.class)
     public Drone register(Drone drone) {
         return repository.save(drone);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Drone> getAvailable() {
+        return repository.findAllByStateEquals(State.IDLE);
     }
 
     @Override
