@@ -76,4 +76,11 @@ public class DroneController {
                 MedicationMapper.INSTANCE.toDtoList(
                         service.loadMedicationsByIds(id, medicationDtoIds)));
     }
+
+    @GetMapping("/{drone_id}/medications")
+    public ResponseEntity<List<MedicationDto>> getMedications(@PathVariable("drone_id") Long id) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDtoList(
+                        service.getMedications(id)));
+    }
 }
