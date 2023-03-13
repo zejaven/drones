@@ -32,6 +32,12 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Drone> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Drone> getAvailable() {
         return repository.findAllByStateEquals(State.IDLE);
     }

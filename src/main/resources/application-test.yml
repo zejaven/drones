@@ -18,3 +18,9 @@ drones:
   medication:
     images:
       path: images
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: auditevents

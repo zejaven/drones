@@ -14,6 +14,8 @@ public interface DroneService {
 
     Drone register(Drone drone);
 
+    List<Drone> getAll();
+
     List<Drone> getAvailable();
 
     Medication loadMedication(Long droneId, Medication medication);
