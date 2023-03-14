@@ -34,19 +34,27 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Resource get(String imagePath) throws MalformedURLException {
-        return new UrlResource(Paths.get(imagePath).toUri());
+    public Resource get(String imagePath) {
+        try {
+            return new UrlResource(Paths.get(imagePath).toUri());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public String save(MultipartFile file) throws IOException {
+    public String save(MultipartFile file) {
         if (file != null) {
             var originalFileName = Strings.isNotBlank(file.getOriginalFilename())
                     ? file.getOriginalFilename()
                     : file.getName();
             var fileName = UUID.randomUUID().toString().concat(UNDERSCORE).concat(originalFileName);
             var path = Paths.get(imagePath, fileName);
-            Files.write(path, file.getBytes());
+            try {
+                Files.write(path, file.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return path.toString();
         } else {
             return null;

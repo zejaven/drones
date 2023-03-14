@@ -14,7 +14,6 @@ import org.zeveon.drones.model.State;
 import org.zeveon.drones.service.DroneService;
 import org.zeveon.drones.service.ImageService;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -50,14 +49,10 @@ public class DroneController {
             @PathVariable("drone_id") Long id,
             @ModelAttribute @Valid MedicationDto medicationDto
     ) {
-        try {
-            return ResponseEntity.ok(
-                    MedicationMapper.INSTANCE.toDto(
-                            service.loadMedication(id,
-                                    MedicationMapper.INSTANCE.toEntity(medicationDto, imageService))));
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDto(
+                        service.loadMedication(id,
+                                MedicationMapper.INSTANCE.toEntity(medicationDto, imageService))));
     }
 
     @PostMapping(value = "/{drone_id}/load-medications", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -65,14 +60,10 @@ public class DroneController {
             @PathVariable("drone_id") Long id,
             @RequestBody @Valid List<MedicationDto> medicationDtos
     ) {
-        try {
-            return ResponseEntity.ok(
-                    MedicationMapper.INSTANCE.toDtoList(
-                            service.loadMedications(id,
-                                    MedicationMapper.INSTANCE.toEntityList(medicationDtos, imageService))));
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDtoList(
+                        service.loadMedications(id,
+                                MedicationMapper.INSTANCE.toEntityList(medicationDtos, imageService))));
     }
 
     @PostMapping(value = "/{drone_id}/load-medications-by-ids", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -9,7 +9,6 @@ import org.zeveon.drones.dto.MedicationDto;
 import org.zeveon.drones.entity.Medication;
 import org.zeveon.drones.service.ImageService;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,9 +26,9 @@ public interface MedicationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "imagePath", expression = "java(imageService.save(medicationDto.getImage()))")
     @Mapping(target = "imageContentType", expression = "java(imageService.getContentType(medicationDto.getImage()))")
-    Medication toEntity(MedicationDto medicationDto, @Context ImageService imageService) throws IOException;
+    Medication toEntity(MedicationDto medicationDto, @Context ImageService imageService);
 
     List<MedicationDto> toDtoList(Collection<Medication> medications);
 
-    List<Medication> toEntityList(Collection<MedicationDto> medicationDtos, @Context ImageService imageService) throws IOException;
+    List<Medication> toEntityList(Collection<MedicationDto> medicationDtos, @Context ImageService imageService);
 }
