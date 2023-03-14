@@ -1,5 +1,7 @@
 package org.zeveon.drones.exception;
 
+import jakarta.validation.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -25,6 +27,9 @@ import static java.util.Optional.ofNullable;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final String DETAILS_FORMAT = "%s: '%s'";
+    private static final String ITEMS_FORMAT = "%s, %s";
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(MethodArgumentNotValidException exception, ServletWebRequest request) {
         var details = ofNullable(exception.getDetailMessageArguments())
@@ -42,7 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(BindException exception, ServletWebRequest request) {
         var details = exception.getAllErrors().stream()
-                .map(o -> "%s: '%s'".formatted(o.getObjectName(), o.getDefaultMessage()))
+                .map(o -> DETAILS_FORMAT.formatted(o.getObjectName(), o.getDefaultMessage()))
                 .toList();
         return ResponseEntity.badRequest()
                 .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));
@@ -55,6 +60,24 @@ public class GlobalExceptionHandler {
                 .orElse(null));
         return ResponseEntity.internalServerError()
                 .body(buildErrorMessage(exception, request, HttpStatus.INTERNAL_SERVER_ERROR.value(), details));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorMessageDto> handleValidationException(ConstraintViolationException exception, ServletWebRequest request) {
+        var details = exception.getConstraintViolations().stream()
+                .map(cv -> DETAILS_FORMAT.formatted(cv.getPropertyPath(), cv.getMessage()))
+                .toList();
+        return ResponseEntity.badRequest()
+                .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<ErrorMessageDto> handleValidationException(PSQLException exception, ServletWebRequest request) {
+        var details = singletonList(ofNullable(exception.getServerErrorMessage())
+                .map(m -> DETAILS_FORMAT.formatted(m.getColumn(), ITEMS_FORMAT.formatted(m.getMessage(), m.getDetail())))
+                .orElse(null));
+        return ResponseEntity.badRequest()
+                .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));
     }
 
     private ErrorMessageDto buildErrorMessage(Exception exception, ServletWebRequest request, int statusCode, List<String> details) {
