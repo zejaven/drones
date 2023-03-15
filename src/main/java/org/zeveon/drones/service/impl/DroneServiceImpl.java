@@ -12,6 +12,7 @@ import org.zeveon.drones.service.MedicationService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Stanislav Vafin
@@ -49,6 +50,10 @@ public class DroneServiceImpl implements DroneService {
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
         drone.setState(State.LOADING);
         medication.setDrone(drone);
+        drone.setMedications(Stream.concat(
+                drone.getMedications().stream(),
+                Stream.of(medication)
+        ).toList());
         return medicationService.save(medication);
     }
 
@@ -59,6 +64,10 @@ public class DroneServiceImpl implements DroneService {
                 .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
         drone.setState(State.LOADING);
         medications.forEach(medication -> medication.setDrone(drone));
+        drone.setMedications(Stream.concat(
+                drone.getMedications().stream(),
+                medications.stream()
+        ).toList());
         return medicationService.saveAll(medications);
     }
 
@@ -70,6 +79,10 @@ public class DroneServiceImpl implements DroneService {
         drone.setState(State.LOADING);
         var medications = medicationService.getByIds(medicationIds);
         medications.forEach(medication -> medication.setDrone(drone));
+        drone.setMedications(Stream.concat(
+                drone.getMedications().stream(),
+                medications.stream()
+        ).toList());
         return medications;
     }
 
