@@ -1,6 +1,7 @@
 package org.zeveon.drones.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.zeveon.drones.dto.ErrorMessageDto;
+import org.zeveon.drones.service.ImageService;
+import org.zeveon.drones.service.MedicationService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,10 +29,15 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
  * @author Stanislav Vafin
  */
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
     private static final String DETAILS_FORMAT = "%s: '%s'";
     private static final String ITEMS_FORMAT = "%s, %s";
+
+    private final MedicationService medicationService;
+
+    private final ImageService imageService;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(MethodArgumentNotValidException exception, ServletWebRequest request) {
@@ -65,6 +73,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(ConstraintViolationException exception, ServletWebRequest request) {
+        ensureImageConsistency();
         var details = exception.getConstraintViolations().stream()
                 .map(cv -> DETAILS_FORMAT.formatted(
                         isNotBlank(cv.getPropertyPath().toString())
@@ -78,11 +87,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PSQLException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(PSQLException exception, ServletWebRequest request) {
+        ensureImageConsistency();
         var details = singletonList(ofNullable(exception.getServerErrorMessage())
                 .map(m -> DETAILS_FORMAT.formatted(m.getColumn(), ITEMS_FORMAT.formatted(m.getMessage(), m.getDetail())))
                 .orElse(null));
         return ResponseEntity.badRequest()
                 .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));
+    }
+
+    private void ensureImageConsistency() {
+        var medicationImagePaths = medicationService.getAllExistingMedicationImagePaths();
+        imageService.getAllFilePaths().stream()
+                .filter(p -> !medicationImagePaths.contains(p))
+                .forEach(imageService::remove);
     }
 
     private ErrorMessageDto buildErrorMessage(Exception exception, ServletWebRequest request, int statusCode, List<String> details) {

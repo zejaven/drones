@@ -15,6 +15,8 @@ public interface MedicationService {
 
     List<Medication> getAvailable();
 
+    List<String> getAllExistingMedicationImagePaths();
+
     Optional<Medication> getById(Long id);
 
     List<Medication> getByIds(Collection<Long> ids);

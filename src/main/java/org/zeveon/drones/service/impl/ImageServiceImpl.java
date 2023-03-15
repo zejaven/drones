@@ -13,7 +13,9 @@ import org.zeveon.drones.service.ImageService;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,6 +33,18 @@ public class ImageServiceImpl implements ImageService {
     @PostConstruct
     public void init() throws IOException {
         Files.createDirectories(Paths.get(imagePath).toAbsolutePath().normalize());
+    }
+
+    @Override
+    public List<String> getAllFilePaths() {
+        try (var paths = Files.walk(Paths.get(imagePath))) {
+            return paths
+                    .filter(Files::isRegularFile)
+                    .map(Path::toString)
+                    .toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -58,6 +72,15 @@ public class ImageServiceImpl implements ImageService {
             return path.toString();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void remove(String filePath) {
+        try {
+            Files.delete(Paths.get(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

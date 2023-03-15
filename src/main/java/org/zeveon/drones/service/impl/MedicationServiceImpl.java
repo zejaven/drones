@@ -34,6 +34,12 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<String> getAllExistingMedicationImagePaths() {
+        return repository.findNotNullMedicationImagePaths();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Medication> getById(Long id) {
         return repository.findById(id);
     }
