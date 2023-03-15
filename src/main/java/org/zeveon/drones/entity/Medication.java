@@ -1,6 +1,7 @@
 package org.zeveon.drones.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.zeveon.drones.validation.annotations.BatteryLevelHigherThan;
 import org.zeveon.drones.validation.annotations.WeightLimitNotExceeded;
@@ -22,12 +23,14 @@ public class Medication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Pattern(regexp = "^[A-Za-z\\d-_]+$")
     @Column(name = "name")
     private String name;
 
     @Column(name = "weight")
     private Integer weight;
 
+    @Pattern(regexp = "^[A-Z\\d_]+$")
     @Column(name = "code")
     private String code;
 

@@ -2,6 +2,7 @@ package org.zeveon.drones.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.zeveon.drones.model.Model;
 import org.zeveon.drones.model.State;
@@ -26,6 +27,7 @@ public class Drone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(max = 100)
     @Column(name = "serial_number", columnDefinition = "VARCHAR(100)")
     private String serialNumber;
 
@@ -33,6 +35,7 @@ public class Drone {
     @Column(name = "model", columnDefinition = "VARCHAR(15)")
     private Model model;
 
+    @Max(500)
     @Column(name = "weight_limit")
     private Integer weightLimit;
 

@@ -3,6 +3,7 @@ package org.zeveon.drones.dto;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +23,12 @@ public class DroneDto {
     @Null
     private Long id;
 
+    @Size(max = 100)
     private String serialNumber;
 
     private Model model;
 
+    @Max(500)
     private Integer weightLimit;
 
     @NotNull
