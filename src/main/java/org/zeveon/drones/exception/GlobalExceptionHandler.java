@@ -20,6 +20,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 /**
  * @author Stanislav Vafin
@@ -65,7 +66,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorMessageDto> handleValidationException(ConstraintViolationException exception, ServletWebRequest request) {
         var details = exception.getConstraintViolations().stream()
-                .map(cv -> DETAILS_FORMAT.formatted(cv.getPropertyPath(), cv.getMessage()))
+                .map(cv -> DETAILS_FORMAT.formatted(
+                        isNotBlank(cv.getPropertyPath().toString())
+                                ? cv.getPropertyPath().toString()
+                                : cv.getRootBeanClass().getName(),
+                        cv.getMessage()))
                 .toList();
         return ResponseEntity.badRequest()
                 .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));

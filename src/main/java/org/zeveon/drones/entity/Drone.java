@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.zeveon.drones.model.Model;
 import org.zeveon.drones.model.State;
+import org.zeveon.drones.validation.annotations.BatteryLevelHigherThan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@BatteryLevelHigherThan(25)
 @Table(name = "drone", schema = "drones")
 public class Drone {
 

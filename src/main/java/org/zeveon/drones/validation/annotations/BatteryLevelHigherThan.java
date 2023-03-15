@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 /**
  * @author Stanislav Vafin
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = BatteryLevelValidator.class)
 public @interface BatteryLevelHigherThan {
