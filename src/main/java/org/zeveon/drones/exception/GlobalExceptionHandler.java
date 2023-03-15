@@ -71,6 +71,16 @@ public class GlobalExceptionHandler {
                 .body(buildErrorMessage(exception, request, HttpStatus.INTERNAL_SERVER_ERROR.value(), details));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorMessageDto> handleRuntimeException(RuntimeException exception, ServletWebRequest request) {
+        ensureImageConsistency();
+        var details = singletonList(ofNullable(exception.getCause())
+                .map(Throwable::getMessage)
+                .orElse(null));
+        return ResponseEntity.internalServerError()
+                .body(buildErrorMessage(exception, request, HttpStatus.INTERNAL_SERVER_ERROR.value(), details));
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorMessageDto> handleConstraintViolationException(ConstraintViolationException exception, ServletWebRequest request) {
         ensureImageConsistency();
