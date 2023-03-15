@@ -69,6 +69,23 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public Medication unload(Long id) {
+        var medication = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("There is no medication with id: %s".formatted(id)));
+        medication.setDrone(null);
+        return medication;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Medication> unload(List<Long> ids) {
+        return repository.findAllById(ids).stream()
+                .peek(m -> m.setDrone(null))
+                .toList();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Medication delete(Long id) {
         var medication = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("There is no medication with id: %s".formatted(id)));

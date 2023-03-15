@@ -75,6 +75,20 @@ public class MedicationController {
                                 MedicationMapper.INSTANCE.toEntityList(medicationDtos, imageService))));
     }
 
+    @PostMapping("/unload/{medication_id}")
+    public ResponseEntity<MedicationDto> unloadMedication(@PathVariable("medication_id") Long id) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDto(
+                        service.unload(id)));
+    }
+
+    @PostMapping(value = "/unload", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MedicationDto>> unloadMedication(@RequestBody List<Long> ids) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDtoList(
+                        service.unload(ids)));
+    }
+
     @DeleteMapping("/{medication_id}")
     public ResponseEntity<MedicationDto> delete(@PathVariable("medication_id") Long id) {
         return ResponseEntity.ok(

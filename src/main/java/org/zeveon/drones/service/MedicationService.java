@@ -25,5 +25,9 @@ public interface MedicationService {
 
     List<Medication> saveAll(Collection<Medication> medications);
 
+    Medication unload(Long id);
+
+    List<Medication> unload(List<Long> ids);
+
     Medication delete(Long id);
 }
