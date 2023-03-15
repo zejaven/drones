@@ -24,9 +24,11 @@ public interface DroneService {
 
     List<Medication> loadMedicationsByIds(Long droneId, Collection<Long> medicationIds);
 
-    List<Medication> getMedications(Long droneId);
+    List<Medication> getMedications(Long id);
 
-    Integer getBatteryLevel(Long droneId);
+    Integer getBatteryLevel(Long id);
 
-    Drone changeState(Long droneId, State state);
+    Drone changeState(Long id, State state);
+
+    Drone delete(Long id);
 }

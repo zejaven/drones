@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-03-16-04-46-00_edit-medication-drone-foreign-key-constraint" author="Stanislav Vafin">
+        <preConditions onFail="MARK_RAN">
+            <foreignKeyConstraintExists foreignKeyName="medication_drone_fk" foreignKeyTableName="medication" schemaName="drones"/>
+        </preConditions>
+        <dropForeignKeyConstraint constraintName="medication_drone_fk" baseTableName="medication" baseTableSchemaName="drones"/>
+        <addForeignKeyConstraint constraintName="medication_drone_fk"
+                                 baseTableName="medication" baseTableSchemaName="drones" baseColumnNames="drone_id"
+                                 referencedTableName="drone" referencedTableSchemaName="drones" referencedColumnNames="id"
+                                 onDelete="SET NULL"/>
+        <rollback>
+            <dropForeignKeyConstraint constraintName="medication_drone_fk" baseTableName="medication" baseTableSchemaName="drones"/>
+            <addForeignKeyConstraint constraintName="medication_drone_fk"
+                                     baseTableName="medication" baseTableSchemaName="drones" baseColumnNames="drone_id"
+                                     referencedTableName="drone" referencedTableSchemaName="drones" referencedColumnNames="id"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -51,6 +51,6 @@ public class Drone {
     private State state = State.IDLE;
 
     @Builder.Default
-    @OneToMany(mappedBy = "drone")
+    @OneToMany(mappedBy = "drone", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Medication> medications = new ArrayList<>();
 }

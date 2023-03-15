@@ -88,7 +88,7 @@ public class DroneController {
         return ResponseEntity.ok(service.getBatteryLevel(id));
     }
 
-    @PostMapping(value = "/{drone_id}/change-state/{state}")
+    @PostMapping("/{drone_id}/change-state/{state}")
     public ResponseEntity<DroneDto> changeState(
             @PathVariable("drone_id") Long id,
             @PathVariable("state") State state
@@ -96,5 +96,12 @@ public class DroneController {
         return ResponseEntity.ok(
                 DroneMapper.INSTANCE.toDto(
                         service.changeState(id, state)));
+    }
+
+    @DeleteMapping("/{drone_id}")
+    public ResponseEntity<DroneDto> delete(@PathVariable("drone_id") Long id) {
+        return ResponseEntity.ok(
+                DroneMapper.INSTANCE.toDto(
+                        service.delete(id)));
     }
 }

@@ -88,26 +88,35 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Medication> getMedications(Long droneId) {
-        return repository.findById(droneId)
-                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)))
+    public List<Medication> getMedications(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(id)))
                 .getMedications();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getBatteryLevel(Long droneId) {
-        return repository.findById(droneId)
-                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)))
+    public Integer getBatteryLevel(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(id)))
                 .getBatteryCapacity();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Drone changeState(Long droneId, State state) {
-        var drone = repository.findById(droneId)
-                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(droneId)));
+    public Drone changeState(Long id, State state) {
+        var drone = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(id)));
         drone.setState(state);
+        return drone;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Drone delete(Long id) {
+        var drone = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("There is no drone with id: %s".formatted(id)));
+        repository.delete(drone);
         return drone;
     }
 }

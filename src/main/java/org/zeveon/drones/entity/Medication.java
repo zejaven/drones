@@ -41,6 +41,8 @@ public class Medication {
 
     @WeightLimitNotExceeded
     @ManyToOne
-    @JoinColumn(name = "drone_id")
+    @JoinColumn(name = "drone_id",
+            foreignKey = @ForeignKey(name = "medication_drone_fk",
+                    foreignKeyDefinition = "FOREIGN KEY (drone_id) REFERENCES drones.drone (id) ON DELETE SET NULL"))
     private Drone drone;
 }
