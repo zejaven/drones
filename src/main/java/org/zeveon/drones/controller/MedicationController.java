@@ -74,4 +74,11 @@ public class MedicationController {
                         service.saveAll(
                                 MedicationMapper.INSTANCE.toEntityList(medicationDtos, imageService))));
     }
+
+    @DeleteMapping("/{medication_id}")
+    public ResponseEntity<MedicationDto> delete(@PathVariable("medication_id") Long id) {
+        return ResponseEntity.ok(
+                MedicationMapper.INSTANCE.toDto(
+                        service.delete(id)));
+    }
 }
