@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     private final ImageService imageService;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessageDto> handleValidationException(MethodArgumentNotValidException exception, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessageDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, ServletWebRequest request) {
         var details = ofNullable(exception.getDetailMessageArguments())
                 .map(args -> Arrays.stream(args)
                         .filter(o -> o instanceof ArrayList<?>)
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorMessageDto> handleValidationException(BindException exception, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessageDto> handleBindException(BindException exception, ServletWebRequest request) {
         var details = exception.getAllErrors().stream()
                 .map(o -> DETAILS_FORMAT.formatted(o.getObjectName(), o.getDefaultMessage()))
                 .toList();
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<ErrorMessageDto> handleValidationException(IOException exception, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessageDto> handleIOException(IOException exception, ServletWebRequest request) {
         var details = singletonList(ofNullable(exception.getCause())
                 .map(Throwable::getMessage)
                 .orElse(null));
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorMessageDto> handleValidationException(ConstraintViolationException exception, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessageDto> handleConstraintViolationException(ConstraintViolationException exception, ServletWebRequest request) {
         ensureImageConsistency();
         var details = exception.getConstraintViolations().stream()
                 .map(cv -> DETAILS_FORMAT.formatted(
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(PSQLException.class)
-    public ResponseEntity<ErrorMessageDto> handleValidationException(PSQLException exception, ServletWebRequest request) {
+    public ResponseEntity<ErrorMessageDto> handlePSQLException(PSQLException exception, ServletWebRequest request) {
         ensureImageConsistency();
         var details = singletonList(ofNullable(exception.getServerErrorMessage())
                 .map(m -> DETAILS_FORMAT.formatted(m.getColumn(), ITEMS_FORMAT.formatted(m.getMessage(), m.getDetail())))
