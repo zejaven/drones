@@ -3,3 +3,4 @@ target/
 hidden.yml
 liquibase.properties
 images/
+images-test/

@@ -17,7 +17,7 @@ spring:
 drones:
   medication:
     images:
-      path: images
+      path: images-test
 
 management:
   endpoints:
