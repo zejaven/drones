@@ -9,8 +9,7 @@ import org.zeveon.drones.validation.annotations.WeightLimitNotExceeded;
  * @author Stanislav Vafin
  */
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

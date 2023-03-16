@@ -3,7 +3,10 @@ package org.zeveon.drones.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.zeveon.drones.model.Model;
 import org.zeveon.drones.model.State;
 import org.zeveon.drones.validation.annotations.BatteryLevelHigherThan;
@@ -15,8 +18,7 @@ import java.util.List;
  * @author Stanislav Vafin
  */
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

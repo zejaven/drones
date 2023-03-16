@@ -20,6 +20,7 @@
         <liquibase.version>4.20.0</liquibase.version>
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <mockito.junit-jupiter.version>5.2.0</mockito.junit-jupiter.version>
     </properties>
 
     <parent>
@@ -101,6 +102,26 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.junit-jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
