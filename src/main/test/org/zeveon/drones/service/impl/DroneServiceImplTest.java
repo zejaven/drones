@@ -26,6 +26,9 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Stanislav Vafin
+ */
 @ExtendWith(MockitoExtension.class)
 public class DroneServiceImplTest {
 
