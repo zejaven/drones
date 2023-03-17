@@ -37,6 +37,13 @@ public class DroneController {
                                 DroneMapper.INSTANCE.toEntity(droneDto))));
     }
 
+    @GetMapping
+    public ResponseEntity<List<DroneDto>> getAll() {
+        return ResponseEntity.ok(
+                DroneMapper.INSTANCE.toDtoList(
+                        service.getAll()));
+    }
+
     @GetMapping("/available")
     public ResponseEntity<List<DroneDto>> getAvailable() {
         return ResponseEntity.ok(
