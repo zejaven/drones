@@ -56,7 +56,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorMessageDto> handleBindException(BindException exception, ServletWebRequest request) {
         var details = exception.getAllErrors().stream()
-                .map(o -> DETAILS_FORMAT.formatted(o.getObjectName(), o.getDefaultMessage()))
+                .filter(o -> o instanceof FieldError)
+                .map(o -> (FieldError) o)
+                .map(o -> DETAILS_FORMAT.formatted(o.getField(), o.getDefaultMessage()))
                 .toList();
         return ResponseEntity.badRequest()
                 .body(buildErrorMessage(exception, request, HttpStatus.BAD_REQUEST.value(), details));
