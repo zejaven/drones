@@ -12,7 +12,9 @@ spring:
   liquibase:
     enabled: false
   config:
-    import: classpath:hidden.yml
+    import:
+      - classpath:hidden.yml
+      - classpath:examples.yml
 
 drones:
   medication:

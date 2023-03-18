@@ -21,6 +21,7 @@
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <mockito.junit-jupiter.version>5.2.0</mockito.junit-jupiter.version>
+        <springdoc.starter.version>2.0.4</springdoc.starter.version>
     </properties>
 
     <parent>
@@ -122,6 +123,13 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.junit-jupiter.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Springdoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.starter.version}</version>
         </dependency>
     </dependencies>
 
