@@ -10,16 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.zeveon.drones.util.Base64Util.convertCustomBase64ToBase64;
 
 /**
  * @author Stanislav Vafin
  */
 @Component
 public class Base64ToMultipartFileDeserializer extends StdDeserializer<MultipartFile> {
-
-    private static final String EVERYTHING_PATTERN = ".*";
-    public static final String COLON = ":";
 
     public Base64ToMultipartFileDeserializer() {
         this(null);
@@ -31,11 +28,11 @@ public class Base64ToMultipartFileDeserializer extends StdDeserializer<Multipart
 
     @Override
     public MultipartFile deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        var text = jsonParser.getText();
-        var fileName = text.replaceFirst(COLON.concat(EVERYTHING_PATTERN), EMPTY);
-        var contentType = text.replaceFirst(fileName.concat(COLON), EMPTY)
-                .replaceFirst(COLON.concat(EVERYTHING_PATTERN), EMPTY);
-        var base64image = text.replaceFirst(fileName.concat(COLON).concat(contentType).concat(COLON), EMPTY);
-        return new MockMultipartFile(fileName, fileName, contentType, Base64.getDecoder().decode(base64image));
+        var multipartFileInfo = convertCustomBase64ToBase64(jsonParser.getText());
+        return new MockMultipartFile(
+                multipartFileInfo.getFileName(),
+                multipartFileInfo.getFileName(),
+                multipartFileInfo.getContentType(),
+                Base64.getDecoder().decode(multipartFileInfo.getBase64Representation()));
     }
 }
