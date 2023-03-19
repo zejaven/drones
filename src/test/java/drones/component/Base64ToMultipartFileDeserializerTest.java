@@ -1,8 +1,9 @@
-package org.zeveon.drones.component;
+package drones.component;
 
 import com.fasterxml.jackson.core.JsonParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.zeveon.drones.component.Base64ToMultipartFileDeserializer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

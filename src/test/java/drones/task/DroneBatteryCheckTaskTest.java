@@ -1,4 +1,4 @@
-package org.zeveon.drones.task;
+package drones.task;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.zeveon.drones.entity.Drone;
 import org.zeveon.drones.event.DroneBatteryCheckEvent;
 import org.zeveon.drones.service.DroneService;
+import org.zeveon.drones.task.DroneBatteryCheckTask;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;

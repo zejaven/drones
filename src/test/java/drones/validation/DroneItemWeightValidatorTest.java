@@ -1,4 +1,4 @@
-package org.zeveon.drones.validation;
+package drones.validation;
 
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,24 +6,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.zeveon.drones.entity.Drone;
-import org.zeveon.drones.model.State;
-import org.zeveon.drones.validation.annotations.BatteryLevelHigherThan;
+import org.zeveon.drones.entity.Medication;
+import org.zeveon.drones.validation.DroneItemWeightValidator;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Stanislav Vafin
  */
-public class BatteryLevelValidatorTest {
+public class DroneItemWeightValidatorTest {
 
-    private static final int MIN_BATTERY_CAPACITY = 25;
-
-    private BatteryLevelValidator validator;
+    private DroneItemWeightValidator validator;
     private ConstraintValidatorContext context;
 
     public static Stream<Arguments> isValidTestParams() {
@@ -33,31 +31,35 @@ public class BatteryLevelValidatorTest {
                         true
                 ),
                 arguments(
-                        newDrone(State.LOADING, MIN_BATTERY_CAPACITY - 1),
+                        newDrone(List.of(
+                                newMedication(25),
+                                newMedication(30),
+                                newMedication(40)
+                        )),
+                        true
+                ),
+                arguments(
+                        newDrone(List.of(
+                                newMedication(25),
+                                newMedication(30),
+                                newMedication(45)
+                        )),
+                        true
+                ),
+                arguments(
+                        newDrone(List.of(
+                                newMedication(25),
+                                newMedication(30),
+                                newMedication(50)
+                        )),
                         false
-                ),
-                arguments(
-                        newDrone(State.LOADING, MIN_BATTERY_CAPACITY + 1),
-                        true
-                ),
-                arguments(
-                        newDrone(State.IDLE, MIN_BATTERY_CAPACITY - 1),
-                        true
-                ),
-                arguments(
-                        newDrone(State.IDLE, MIN_BATTERY_CAPACITY + 1),
-                        true
                 )
         );
     }
 
     @BeforeEach
     void setUp() {
-        var annotation = mock(BatteryLevelHigherThan.class);
-        when(annotation.value()).thenReturn(MIN_BATTERY_CAPACITY);
-
-        validator = new BatteryLevelValidator();
-        validator.initialize(annotation);
+        validator = new DroneItemWeightValidator();
         context = mock(ConstraintValidatorContext.class);
     }
 
@@ -67,10 +69,16 @@ public class BatteryLevelValidatorTest {
         assertEquals(expectedResult, validator.isValid(drone, context));
     }
 
-    private static Drone newDrone(State state, Integer batteryCapacity) {
+    private static Drone newDrone(List<Medication> medications) {
         return Drone.builder()
-                .state(state)
-                .batteryCapacity(batteryCapacity)
+                .weightLimit(100)
+                .medications(medications)
+                .build();
+    }
+
+    private static Medication newMedication(Integer weight) {
+        return Medication.builder()
+                .weight(weight)
                 .build();
     }
 }

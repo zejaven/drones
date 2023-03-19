@@ -1,4 +1,4 @@
-package org.zeveon.drones.service.impl;
+package drones.service.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
+import org.zeveon.drones.service.impl.ImageServiceImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;

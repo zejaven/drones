@@ -1,4 +1,4 @@
-package org.zeveon.drones.service.impl;
+package drones.service.impl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +13,7 @@ import org.zeveon.drones.entity.Medication;
 import org.zeveon.drones.model.State;
 import org.zeveon.drones.repository.MedicationRepository;
 import org.zeveon.drones.service.ImageService;
+import org.zeveon.drones.service.impl.MedicationServiceImpl;
 
 import java.util.Optional;
 import java.util.stream.Stream;
