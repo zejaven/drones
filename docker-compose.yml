@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    image: drones
+    depends_on:
+      - db
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/drones
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=m2KqePqsmAb7
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=drones
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=m2KqePqsmAb7
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db-init/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
+
+volumes:
+  db-data:

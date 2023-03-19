@@ -1,0 +1,10 @@
+.DS_Store
+.git
+.gitignore
+*.md
+.dockerignore
+.idea
+images/
+images-test/
+hidden.yml
+liquibase.properties

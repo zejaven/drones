@@ -1,0 +1,23 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: false
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  config:
+    import: classpath:examples.yml
+
+drones:
+  medication:
+    images:
+      path: images
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: auditevents
